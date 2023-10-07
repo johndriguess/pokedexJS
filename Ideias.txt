@@ -1,0 +1,3 @@
+Adicionar CRIES, API https://www.pkmnapi.com/endpoints/pokemon-cries/
+Adicionar som ao clicar nos botões
+mudar o ID de lugar
