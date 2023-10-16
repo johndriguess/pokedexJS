@@ -13,8 +13,6 @@ body{
     min-height: 100vh;
 }
 
-
-
 main{
     display: inline-block;
     margin-top: 2%;
@@ -57,10 +55,25 @@ main{
     color: red;
 }
 
+.pokemon_type1{
+    position: absolute;
+    width: 22%;
+    top: 64%;
+    left: 20.5%;
+}
+
+.pokemon_type2{
+    position: absolute;
+    width: 22%;
+    top: 64%;
+    left: 45.5%;
+}
+
+
 .form{
     position: absolute;
     width: 65%;
-    top: 65%;
+    top: 72%;
     left: 13.5%;
 }
 
@@ -102,3 +115,4 @@ main{
     box-shadow: inset -2px 3px 0 #222;
     font-size: 0.9rem;
 }
+

@@ -1,6 +1,8 @@
 const pokemonName = document.querySelector(".pokemon_name");
 const pokemonNumber = document.querySelector(".pokemon_number");
 const pokemonImage = document.querySelector(".pokemon_image");
+const pokemonType1 = document.querySelector(".pokemon_type1");
+const pokemonType2 = document.querySelector(".pokemon_type2");
 
 const form = document.querySelector(".form");
 const input = document.querySelector(".input_search");
@@ -8,9 +10,9 @@ const input = document.querySelector(".input_search");
 const buttonPrev = document.querySelector(".btn-prev");
 const buttonNext = document.querySelector(".btn-next");
 
-const audioPrev = new Audio('emerald_0003.wav');
-const audioNext= new Audio('emerald_0005.wav');
-const audioNotFound= new Audio('emerald_0007.wav');
+const audioPrev = new Audio('./sounds/emerald_0003.wav');
+const audioNext= new Audio('./sounds/emerald_0005.wav');
+const audioNotFound= new Audio('./sounds/emerald_0007.wav');
 
 let searchPokemon = 1;
 
@@ -37,6 +39,21 @@ const renderPokemon = async (pokemon) => {
         }else{
             pokemonImage.style.display = 'none';
         }
+        if(data['types']['length'] == 1 ){
+            pokemonType2.style.display = 'none';
+            pokemonType1.style.left = "30%";
+            const tipo1 = data['types']['0']['type']['name']
+            pokemonType1.src = "./images/types/"+tipo1+"_type.png"
+        }
+        else{
+            pokemonType2.style.display = null;
+            pokemonType1.style.left = null;
+            let tipo1 = data['types']['0']['type']['name']
+            pokemonType1.src = "./images/types/"+tipo1+"_type.png"
+            let tipo2 = data['types']['1']['type']['name']
+            pokemonType2.src = "./images/types/"+tipo2+"_type.png"
+        }
+        
     } else{
         audioNotFound.play()
         pokemonImage.style.display = 'none';
