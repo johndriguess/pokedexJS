@@ -9,6 +9,8 @@ const input = document.querySelector(".input_search");
 
 const buttonPrev = document.querySelector(".btn-prev");
 const buttonNext = document.querySelector(".btn-next");
+const buttonMega = document.querySelector(".btn-mega");
+const buttonVoltar = document.querySelector(".btn-voltar");
 
 const audioPrev = new Audio('./sounds/emerald_0003.wav');
 const audioNext= new Audio('./sounds/emerald_0005.wav');
@@ -25,23 +27,59 @@ const fetchPokemon = async (pokemon) => {
     }
 } 
 
+const verificarMega = async (pokemon) => {
+    const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon}/`);
+    if(APIResponse.status == 200){
+        const data = await APIResponse.json();
+        if(parseInt(data['varieties']['length']) > 1){
+            if(data['varieties']['1']['pokemon']['name'].includes("mega")){
+                buttonMega.style.display = 'block';
+                let url = data['varieties']['1']['pokemon']['url']
+                num = url.substring(34,39);
+                return num
+            }else{
+                buttonMega.style.display = 'none';
+            }
+        }else{
+            buttonMega.style.display = 'none';
+        }
+        
+    }else{
+        buttonMega.style.display = 'none';
+    }
+}
+
 const renderPokemon = async (pokemon) => {
     const data = await fetchPokemon(pokemon);
     if(data){
-        searchPokemon = data.id;
+        buttonVoltar.style.display = 'none';
+        mega = await verificarMega(pokemon)
         pokemonImage.style.display = 'block';
-        pokemonName.innerHTML = data.name;
-        pokemonNumber.innerHTML = data.id;
+        searchPokemon = data.id;
         if(searchPokemon < 650){
+            pokemonNumber.innerHTML = data.id;
+            pokemonName.innerHTML = data.name.split("-").join(" ");
             pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default']
         }else if(searchPokemon > 649 && searchPokemon < 1011){
+            pokemonNumber.innerHTML = data.id;
+            pokemonName.innerHTML = data.name.split("-").join(" ");
             pokemonImage.src = data['sprites']['front_default']
-        }else{
+        }else if(searchPokemon > 10000){
+            pokemonNumber.innerHTML = "MEGA";
+            pokemonName.innerHTML = data.name.split("-").join(" ");
+            pokemonImage.src = data['sprites']['front_default']
+            buttonVoltar.style.display = 'block';
+            searchPokemon = pokemonOriginal
+        }
+        else{
             pokemonImage.style.display = 'none';
+            pokemonImage.style.display = 'none';
+            pokemonNumber.innerHTML = data.id;
+            pokemonName.innerHTML = data.name;
         }
         if(data['types']['length'] == 1 ){
             pokemonType2.style.display = 'none';
-            pokemonType1.style.left = "30%";
+            pokemonType1.style.left = "36%";
             const tipo1 = data['types']['0']['type']['name']
             pokemonType1.src = "./images/types/"+tipo1+"_type.png"
         }
@@ -59,6 +97,8 @@ const renderPokemon = async (pokemon) => {
         pokemonImage.style.display = 'none';
         pokemonName.innerHTML = "Não foi encontrado";
         pokemonNumber.innerHTML = "";
+        pokemonType1.src = "./images/types/blank.png";
+        pokemonType2.src = "./images/types/blank.png";
         setTimeout(()=> {
             searchPokemon = 1
             renderPokemon(searchPokemon);
@@ -103,5 +143,18 @@ buttonNext.addEventListener('click', () => {
     setTimeout(()=> buttonNext.disabled = false, 500)
 }); 
 
+buttonMega.addEventListener('click', () => {
+    pokemonOriginal = searchPokemon
+    audioNext.volume = 0.2;
+    audioNext.play();
+    renderPokemon(mega)
+});
+
+buttonVoltar.addEventListener('click', () => {
+    pokemonOriginal = searchPokemon
+    audioPrev.volume = 0.2;
+    audioPrev.play();
+    renderPokemon(searchPokemon)
+}); 
 
 renderPokemon(searchPokemon);
