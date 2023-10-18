@@ -70,11 +70,11 @@ const renderPokemon = async (pokemon) => {
         buttonNext.style.visibility = 'visible';
         if(searchPokemon < 650){
             pokemonNumber.innerHTML = data.id;
-            pokemonName.innerHTML = data.name.split("-").join(" ");
+            pokemonName.innerHTML = data.name
             pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default']
         }else if(searchPokemon > 649 && searchPokemon < 1011){
             pokemonNumber.innerHTML = data.id;
-            pokemonName.innerHTML = data.name.split("-").join(" ");
+            pokemonName.innerHTML = data.name
             pokemonImage.src = data['sprites']['front_default']
         }else if(searchPokemon > 10000){
             buttonMega.style.display = 'none';
