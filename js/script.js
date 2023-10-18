@@ -16,7 +16,7 @@ const audioPrev = new Audio('./sounds/emerald_0003.wav');
 const audioNext= new Audio('./sounds/emerald_0005.wav');
 const audioNotFound= new Audio('./sounds/emerald_0007.wav');
 
-let searchPokemon = 6;
+let searchPokemon = 1;
 
 
 const speciesName = async (pokemon) => {
@@ -40,34 +40,34 @@ const verificarMega = async (pokemon) => {
         const data = await APIResponse.json();
         if(parseInt(data['varieties']['length']) > 1){
             if(data['varieties']['1']['pokemon']['name'].includes("mega")){
-                buttonMega.style.display = 'block';
+                buttonMega.style.visibility = 'visible';
                 let url = data['varieties']['1']['pokemon']['url']
                 num = url.substring(34,39);
                 return num
             }else{
-                buttonMega.style.display = 'none';
+                buttonMega.style.visibility = 'hidden';
             }
         }else{
-            buttonMega.style.display = 'none';
+            buttonMega.style.visibility = 'hidden';
         }
         
     }else{
-        buttonMega.style.display = 'none';
+        buttonMega.style.visibility = 'hidden';
     }
 }
 
 const renderPokemon = async (pokemon) => {
     const data = await fetchPokemon(pokemon);
     if(data){
-        if(pokemon > 1 && pokemon < 1017){
-            buttonMega.style.display = 'none';
+        searchPokemon = data.id;
+        if(searchPokemon > 0 && searchPokemon < 1018){
+            buttonMega.style.visibility = 'hidden';
             mega = await verificarMega(pokemon)
         }
         pokemonImage.style.display = 'block';
         buttonVoltar.style.visibility = 'hidden'; 
         buttonPrev.style.visibility = 'visible';
         buttonNext.style.visibility = 'visible';
-        searchPokemon = data.id;
         if(searchPokemon < 650){
             pokemonNumber.innerHTML = data.id;
             pokemonName.innerHTML = data.name.split("-").join(" ");
@@ -181,7 +181,7 @@ buttonVoltar.addEventListener('click', () => {
     pokemonOriginal = searchPokemon
     audioPrev.volume = 0.2;
     audioPrev.play();
-    if(searchPokemon == 10034 || searchPokemon == 10035 || searchPokemon == 10045 || searchPokemon == 10046){
+    if(searchPokemon == 10034 || searchPokemon == 10035 || searchPokemon == 10043 || searchPokemon == 10044){
         searchPokemon = nome
     }
     renderPokemon(searchPokemon)
