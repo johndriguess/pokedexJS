@@ -16,7 +16,7 @@ const audioPrev = new Audio('./sounds/emerald_0003.wav');
 const audioNext= new Audio('./sounds/emerald_0005.wav');
 const audioNotFound= new Audio('./sounds/emerald_0007.wav');
 
-let searchPokemon = 1;
+let searchPokemon = 6;
 
 
 const fetchPokemon = async (pokemon) => {
@@ -52,9 +52,13 @@ const verificarMega = async (pokemon) => {
 const renderPokemon = async (pokemon) => {
     const data = await fetchPokemon(pokemon);
     if(data){
-        buttonVoltar.style.display = 'none';
-        mega = await verificarMega(pokemon)
+        if(pokemon > 1 && pokemon < 1017){
+            mega = await verificarMega(pokemon)
+        }
         pokemonImage.style.display = 'block';
+        buttonVoltar.style.visibility = 'hidden'; 
+        buttonPrev.style.visibility = 'visible';
+        buttonNext.style.visibility = 'visible';
         searchPokemon = data.id;
         if(searchPokemon < 650){
             pokemonNumber.innerHTML = data.id;
@@ -65,11 +69,23 @@ const renderPokemon = async (pokemon) => {
             pokemonName.innerHTML = data.name.split("-").join(" ");
             pokemonImage.src = data['sprites']['front_default']
         }else if(searchPokemon > 10000){
+            buttonMega.style.visibility = 'hidden'; 
+            buttonVoltar.style.visibility = 'visible'; 
             pokemonNumber.innerHTML = "MEGA";
             pokemonName.innerHTML = data.name.split("-").join(" ");
             pokemonImage.src = data['sprites']['front_default']
             buttonVoltar.style.display = 'block';
-            searchPokemon = pokemonOriginal
+            if(data.name.includes("mega-x")){
+                buttonPrev.style.visibility = 'hidden';  
+                buttonNext.style.visibility = 'visible';    
+            }else if(data.name.includes("mega-y")){
+                buttonPrev.style.visibility = 'visible'; 
+                buttonNext.style.visibility = 'hidden';                
+            }else if(data.name.includes("mega")){
+                buttonPrev.style.visibility = 'hidden'; 
+                buttonNext.style.visibility = 'hidden';  
+            }
+           
         }
         else{
             pokemonImage.style.display = 'none';
@@ -119,9 +135,9 @@ buttonPrev.addEventListener('click', () => {
     audioPrev.volume = 0.2;
     audioPrev.play();
     buttonPrev.disabled = true;
-    if(searchPokemon > 1){
+    if(searchPokemon > 1 || searchPokemon > 10000 && searchPokemon < 10276){ 
         searchPokemon -= 1;
-        renderPokemon(searchPokemon);
+        renderPokemon(searchPokemon); 
     }else{
         searchPokemon = 1017;
         renderPokemon(searchPokemon);
@@ -133,7 +149,7 @@ buttonNext.addEventListener('click', () => {
     audioNext.volume = 0.2;
     audioNext.play();
     buttonNext.disabled = true;
-    if(searchPokemon < 1017){
+    if(searchPokemon < 1017 || searchPokemon > 10000 && searchPokemon < 10275){
         searchPokemon += 1;
         renderPokemon(searchPokemon);
     }else{
