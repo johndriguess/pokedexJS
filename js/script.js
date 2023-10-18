@@ -19,6 +19,13 @@ const audioNotFound= new Audio('./sounds/emerald_0007.wav');
 let searchPokemon = 6;
 
 
+const speciesName = async (pokemon) => {
+    const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon}/`);
+    if(APIResponse.status == 200){
+        const data = await APIResponse.json();
+        return data['species']['name']
+    }
+}
 const fetchPokemon = async (pokemon) => {
     const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
     if(APIResponse.status == 200){
@@ -53,6 +60,7 @@ const renderPokemon = async (pokemon) => {
     const data = await fetchPokemon(pokemon);
     if(data){
         if(pokemon > 1 && pokemon < 1017){
+            buttonMega.style.display = 'none';
             mega = await verificarMega(pokemon)
         }
         pokemonImage.style.display = 'block';
@@ -69,7 +77,7 @@ const renderPokemon = async (pokemon) => {
             pokemonName.innerHTML = data.name.split("-").join(" ");
             pokemonImage.src = data['sprites']['front_default']
         }else if(searchPokemon > 10000){
-            buttonMega.style.visibility = 'hidden'; 
+            buttonMega.style.display = 'none';
             buttonVoltar.style.visibility = 'visible'; 
             pokemonNumber.innerHTML = "MEGA";
             pokemonName.innerHTML = data.name.split("-").join(" ");
@@ -77,13 +85,16 @@ const renderPokemon = async (pokemon) => {
             buttonVoltar.style.display = 'block';
             if(data.name.includes("mega-x")){
                 buttonPrev.style.visibility = 'hidden';  
-                buttonNext.style.visibility = 'visible';    
+                buttonNext.style.visibility = 'visible';
+                nome = data['species']['name']    
             }else if(data.name.includes("mega-y")){
                 buttonPrev.style.visibility = 'visible'; 
-                buttonNext.style.visibility = 'hidden';                
+                buttonNext.style.visibility = 'hidden'; 
+                nome = data['species']['name'] 
             }else if(data.name.includes("mega")){
                 buttonPrev.style.visibility = 'hidden'; 
                 buttonNext.style.visibility = 'hidden';  
+                searchPokemon = pokemonOriginal
             }
            
         }
@@ -170,7 +181,11 @@ buttonVoltar.addEventListener('click', () => {
     pokemonOriginal = searchPokemon
     audioPrev.volume = 0.2;
     audioPrev.play();
+    if(searchPokemon == 10034 || searchPokemon == 10035 || searchPokemon == 10045 || searchPokemon == 10046){
+        searchPokemon = nome
+    }
     renderPokemon(searchPokemon)
+    buttonMega.style.display = 'block';
 }); 
 
 renderPokemon(searchPokemon);
