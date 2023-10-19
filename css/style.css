@@ -52,6 +52,7 @@ main{
     top: 22.75%;
     right: 27%;
     font-size: clamp(8px, 5vw, 25px);
+    text-shadow: 2px 2px 4px rgb(137, 100, 100);
     color: red;
 }
 
