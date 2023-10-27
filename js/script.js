@@ -18,6 +18,7 @@ const audioNotFound= new Audio('./sounds/emerald_0007.wav');
 
 let searchPokemon = 1;
 
+//https://veekun.com/dex/downloads#other-files
 
 const speciesName = async (pokemon) => {
     const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon}/`);
