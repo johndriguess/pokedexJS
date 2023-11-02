@@ -16,6 +16,7 @@ const audioPrev = new Audio('./sounds/emerald_0003.wav');
 const audioNext= new Audio('./sounds/emerald_0005.wav');
 const audioNotFound= new Audio('./sounds/emerald_0007.wav');
 
+
 let searchPokemon = 1;
 
 //https://veekun.com/dex/downloads#other-files
@@ -75,6 +76,7 @@ const renderPokemon = async (pokemon) => {
             buttonVoltar.style.visibility = 'hidden'; 
             buttonPrev.style.visibility = 'visible';
             buttonNext.style.visibility = 'visible';
+            const audioCry = new Audio(`./sounds/cries/${searchPokemon}.ogg`);
             if(searchPokemon < 650){
                 pokemonNumber.innerHTML = data.id;
                 pokemonName.innerHTML = data.name
@@ -111,6 +113,10 @@ const renderPokemon = async (pokemon) => {
                 pokemonNumber.innerHTML = data.id;
                 pokemonName.innerHTML = data.name;
             }
+            if(searchPokemon > 0 && searchPokemon < 722){
+                audioCry.volume = 0.05;
+                audioCry.play();
+            }
             if(data['types']['length'] == 1 ){
                 pokemonType2.style.display = 'none';
                 pokemonType1.style.left = "36%";
@@ -125,6 +131,8 @@ const renderPokemon = async (pokemon) => {
                 let tipo2 = data['types']['1']['type']['name']
                 pokemonType2.src = "./images/types/"+tipo2+"_type.png"
             }
+
+            
             
         } else{
             audioNotFound.play()
