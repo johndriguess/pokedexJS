@@ -13,8 +13,10 @@ Este é um projeto de **Pokedéx** baseado nesse [vídeo](https://www.youtube.co
 
 ## **Prévia**
 
-**Para visualizar a prévia em seu navegador clique** [***aqui***](https://johndriguess.github.io/pokedexJS/)
-![Previa](https://drive.google.com/uc?id=1iKRslJdXn_7k6vCe8u5m87gDXVoBGMco)
+**Para visualizar em seu navegador clique [*aqui*](https://johndriguess.github.io/pokedexJS/)**
+
+|![Previa](https://drive.google.com/uc?id=1iKRslJdXn_7k6vCe8u5m87gDXVoBGMco)|
+|----------|
 
 ### Entre em contato comigo: 
 
